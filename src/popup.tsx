@@ -17,7 +17,7 @@ function Popup(){
       try{
         const results=await chrome.scripting.executeScript({target:{tabId:tab.id},func:()=>{
           let data:any=null;
-          for(const el of document.querySelectorAll('script[type="application/ld+json"]')){
+          for(const el of Array.from(document.querySelectorAll('script[type="application/ld+json"]'))){
             try{
               const json=JSON.parse(el.textContent||'null');
               const arr=Array.isArray(json)?json:[json];
