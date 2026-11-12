@@ -1,1 +1,15 @@
 :root{font-family:Inter,system-ui,-apple-system,sans-serif;color:#0f172a;background:#f8fafc;font-synthesis:none}*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:9px;padding:10px 14px;background:#2563eb;color:white;font-weight:600}button.secondary{background:#eff6ff;color:#1d4ed8}button.danger{background:#fee2e2;color:#b91c1c}button:disabled{opacity:.5;cursor:not-allowed}input,select,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;background:white;color:#0f172a}label{font-size:12px;font-weight:600;display:block;margin:12px 0 5px}.card{background:white;border:1px solid #e2e8f0;border-radius:14px;padding:20px}.muted{color:#64748b;font-size:13px}.brand{display:flex;align-items:center;gap:9px;font-size:18px;font-weight:800}.logo{background:#2563eb;color:white;border-radius:9px;padding:8px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.pill{display:inline-block;border-radius:999px;padding:5px 10px;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:600}.popup{width:380px;padding:18px;background:white}.popup h3{margin:18px 0 4px}.stack{display:grid;gap:12px}.layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}.sidebar{background:white;border-right:1px solid #e2e8f0;padding:24px}.main{padding:32px;max-width:1250px;width:100%;margin:auto}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:24px 0}.stat strong{font-size:27px;display:block;margin-top:8px}.jobs{display:grid;gap:10px;margin-top:18px}.job{display:flex;align-items:center;justify-content:space-between;gap:16px}.job h3{margin:0 0 5px}.actions{display:flex;gap:8px;flex-wrap:wrap}.filters{display:grid;grid-template-columns:1fr 160px;gap:10px}@media(max-width:760px){.layout{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid #e2e8f0}.main{padding:18px}.stats{grid-template-columns:repeat(2,1fr)}.job{align-items:flex-start;flex-direction:column}}
+/* Phase 2 application editor and activity history */
+.filterbar{display:grid;grid-template-columns:minmax(220px,1fr) 160px 150px;gap:10px}
+.details{margin-top:18px;border-top:1px solid #e2e8f0;padding-top:16px}
+.details h3{margin:14px 0}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}
+.field{display:block;font-size:12px;font-weight:600;margin:10px 0}
+.field input,.field select,.field textarea{display:block;margin-top:6px;font-weight:400}
+.timeline{padding-left:22px;display:grid;gap:12px}
+.timeline li{padding-left:4px}
+.timeline li span{display:block;margin-top:4px}
+.notice{padding:10px 14px;border:1px solid #bfdbfe;background:#eff6ff;border-radius:8px}
+.job .actions select{min-width:128px}
+.job>div:first-child{min-width:0;overflow-wrap:anywhere}
+@media(max-width:760px){.filterbar{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}}
