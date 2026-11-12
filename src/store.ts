@@ -23,7 +23,7 @@ const SCHEMA = 2;
 /** Keep old v0.1 records readable without rewriting or deleting them. */
 export function hydrateJob(raw: Job): Job {
   return {
-    ...raw, notes: raw.notes || '', location: raw.location || '',
+    ...raw, url: typeof raw.url === 'string' ? raw.url : '', notes: typeof raw.notes === 'string' ? raw.notes : '', location: typeof raw.location === 'string' ? raw.location : '',
     workMode: raw.workMode || 'Unknown',
     activity: Array.isArray(raw.activity) ? raw.activity : [],
   };
@@ -33,7 +33,8 @@ export async function listJobs(): Promise<Job[]> {
   const records: unknown = result[KEY];
   return Array.isArray(records) ? (records as Job[]).filter(j => j && typeof j.id === 'string').map(hydrateJob) : [];
 }
-export function normalizeUrl(url: string): string {
+export function normalizeUrl(url: unknown): string {
+  if (typeof url !== 'string' || !url.trim()) return '';
   try {
     const u = new URL(url);
     u.hash = '';
