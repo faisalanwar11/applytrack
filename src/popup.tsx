@@ -2,6 +2,12 @@ import React,{useEffect,useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {Job,Status,changeStatus,createJob,listJobs,normalizeUrl,saveJob} from './store';
 import './styles.css';
+/** JobPosting fields sometimes contain arrays instead of strings (e.g. addressLocality). */
+function asText(value: unknown): string {
+  if (typeof value === 'string') return value.trim();
+  if (Array.isArray(value)) return value.map(asText).filter(Boolean).join(', ');
+  return '';
+}
 function Popup(){
   const[title,setTitle]=useState(''),[company,setCompany]=useState(''),[location,setLocation]=useState('');
   const[url,setUrl]=useState(''),[status,setStatus]=useState<Status>('Saved');
@@ -30,15 +36,15 @@ function Popup(){
           const address=(Array.isArray(loc)?loc[0]:loc)?.address;
           return {title:data?.title||'',company:data?.hiringOrganization?.name||'',location:address?.addressLocality||''};
         }});
-        const d=results[0]?.result;if(d?.title)setTitle(d.title);if(d?.company)setCompany(d.company);if(d?.location)setLocation(d.location);
+        const d=results[0]?.result;if(d?.title)setTitle(asText(d.title));if(d?.company)setCompany(asText(d.company));if(d?.location)setLocation(asText(d.location));
       }catch{setNotice('Automatic extraction unavailable. Enter details manually.');}
     });
   },[]);
   async function save(){
-    if(!title.trim()||!company.trim()||busy)return;
+    if(!asText(title)||!asText(company)||busy)return;
     setBusy(true);setNotice('');
     try{
-      const fields={title:title.trim(),company:company.trim(),location:location.trim(),url,status};
+      const fields={title:asText(title),company:asText(company),location:asText(location),url:asText(url),status};
       let job:Job;
       if(existing){
         job=changeStatus({...existing,...fields,status:existing.status},status);
@@ -55,7 +61,7 @@ function Popup(){
     <label>Company</label><input value={company} onChange={e=>setCompany(e.target.value)}/>
     <label>Location</label><input value={location} onChange={e=>setLocation(e.target.value)}/>
     <label>Status</label><select value={status} onChange={e=>setStatus(e.target.value as Status)}><option>Saved</option><option>Applied</option></select></div>
-    <button disabled={!title.trim()||!company.trim()||busy} onClick={()=>void save()}>{busy?'Saving...':existing?'Update Job':'Save Job'}</button>
+    <button disabled={!asText(title)||!asText(company)||busy} onClick={()=>void save()}>{busy?'Saving...':existing?'Update Job':'Save Job'}</button>
     {notice&&<p role="status" className="muted">{notice}</p>}
     <button className="secondary" onClick={()=>chrome.tabs.create({url:chrome.runtime.getURL('dashboard.html')})}>Open Dashboard ↗</button>
   </div>;
