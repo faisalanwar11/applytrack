@@ -45,7 +45,7 @@ function Popup(){
         job.updatedAt=new Date().toISOString();
       }else job=createJob(fields);
       await saveJob(job);setExisting(job);setNotice('Application saved on this device.');
-    }catch{setNotice('Save failed. Please try again.');}finally{setBusy(false);}
+    }catch(error){const reason=error instanceof Error?error.message:String(error);console.error('ApplyTrack save failed:',error);setNotice('Save failed: '+reason);}finally{setBusy(false);}
   }
   return <div className="popup stack">
     <div className="row"><div className="brand"><span className="logo">▣</span>ApplyTrack</div><span className="pill">v0.2</span></div>
